@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "ApacheAirflowJob",
+    "displayName": "af_retailkart"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ec3bbb02-e24f-ba99-47c9-98cd0e433ed6"
+  }
+}
