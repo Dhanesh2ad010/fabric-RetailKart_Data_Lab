@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "nb_batch_lab"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0bd0b91b-b99d-ab5e-469b-8ed1f00335e1"
+  }
+}

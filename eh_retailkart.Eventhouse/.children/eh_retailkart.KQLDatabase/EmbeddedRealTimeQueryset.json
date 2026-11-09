@@ -1,0 +1,22 @@
+{
+  "queryset": {
+    "version": "1.0.0",
+    "dataSources": [
+      {
+        "id": "42595a59-6a36-47eb-a32f-a94aad4bc269",
+        "clusterUri": "https://trd-0ed5k3ffzzcwrdfmyb.z9.kusto.fabric.microsoft.com",
+        "type": "Fabric",
+        "databaseItemId": "c95adfa2-f0e5-41aa-ba78-4b4a24c165cc"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "fac07269-fb8f-489d-be67-24428cc7e18f",
+        "content": "bike_agg | take 10;\nbike_agg | summarize events = count() by Neighbourhood;\n\n.create table StocksDaily (Ticker:string, Date:datetime, Range:real);\n\n.create-or-alter function StocksDailyTransform() {\n    Stocks | project Ticker, Date, Range = High - Low\n}\n\n.alter table StocksDaily policy update\n@'[{\"IsEnabled\": true, \"Source\": \"Stocks\", \"Query\": \"StocksDailyTransform()\", \"IsTransactional\": false}]';\n\n.ingest inline into table Stocks <| 2026-11-09,41.0,42.0,40.5,41.5,35.0,1000,HAL\n\nStocksDaily | take 10\n\nbike_agg2 | take 10",
+        "title": "Tab",
+        "dataSourceId": "42595a59-6a36-47eb-a32f-a94aad4bc269"
+      }
+    ],
+    "querysetType": "Embedded"
+  }
+}

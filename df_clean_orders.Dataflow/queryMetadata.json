@@ -1,0 +1,29 @@
+{
+  "formatVersion": "202502",
+  "computeEngineSettings": {
+    "allowModernEvaluationEngine": true
+  },
+  "name": "df_clean_orders",
+  "queryGroups": [],
+  "documentLocale": "en-US",
+  "queriesMetadata": {
+    "raw_orders": {
+      "queryId": "aea13bcc-fb74-49d9-8bff-9ef0f96d4cd9",
+      "queryName": "raw_orders",
+      "loadEnabled": false
+    },
+    "raw_orders_DataDestination": {
+      "queryId": "88f8185f-d4ee-4854-bed1-4e14f914d2b3",
+      "queryName": "raw_orders_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"985dcc93-aeee-4c68-b836-65f097c6fbbe\",\"DatasourceId\":\"a2bfe0fd-e2ce-4539-8e85-69c11053e1a8\"}"
+    }
+  ]
+}

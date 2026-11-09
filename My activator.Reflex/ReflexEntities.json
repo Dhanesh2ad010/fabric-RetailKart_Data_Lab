@@ -1,0 +1,68 @@
+[
+  {
+    "uniqueIdentifier": "9eb4d953-beb9-4821-818a-cc5afaafb644",
+    "payload": {
+      "name": "pl_fail_demo",
+      "description": "Container Description",
+      "type": "rthSubscriptions"
+    },
+    "type": "container-v1"
+  },
+  {
+    "uniqueIdentifier": "9285303c-e18c-49eb-b235-9d307e3ae9d2",
+    "payload": {
+      "name": "dp700-lab-claude-lesson event",
+      "connection": {
+        "scope": "Artifact",
+        "tenantId": "1f6262de-7d88-4c43-93e9-3c81f404c29c",
+        "workspaceId": "ebb37344-5499-4bce-91db-afa9ff20741e",
+        "artifactId": "ce194cb0-5789-45c2-b9dd-6fcc887f6a31",
+        "eventGroupType": "Microsoft.Fabric.JobEvents"
+      },
+      "filterSettings": {
+        "eventTypes": [
+          {
+            "name": "Microsoft.Fabric.JobEvents.ItemJobFailed"
+          }
+        ],
+        "filters": []
+      },
+      "parentContainer": {
+        "targetUniqueIdentifier": "9eb4d953-beb9-4821-818a-cc5afaafb644"
+      }
+    },
+    "type": "realTimeHubSource-v1"
+  },
+  {
+    "uniqueIdentifier": "ca896381-ba99-486d-9f3c-344fbf6b7489",
+    "payload": {
+      "name": "dp700-lab-claude-lesson event",
+      "parentContainer": {
+        "targetUniqueIdentifier": "9eb4d953-beb9-4821-818a-cc5afaafb644"
+      },
+      "definition": {
+        "type": "Event",
+        "instance": "{\"steps\":[{\"id\":\"b8465b50-8576-42d1-81f1-37c38efd1136\",\"name\":\"SourceEventStep\",\"rows\":[{\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"9285303c-e18c-49eb-b235-9d307e3ae9d2\"}],\"kind\":\"SourceReference\",\"name\":\"SourceSelector\"}]}],\"templateId\":\"SourceEvent\",\"templateVersion\":\"1.3.1\"}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "f4d130a0-cd08-4e4e-9037-f1ca7a36752f",
+    "payload": {
+      "name": "pl_fail_demo",
+      "parentContainer": {
+        "targetUniqueIdentifier": "9eb4d953-beb9-4821-818a-cc5afaafb644"
+      },
+      "definition": {
+        "type": "Rule",
+        "instance": "{\"templateId\":\"EventTrigger\",\"templateVersion\":\"1.3.1\",\"steps\":[{\"name\":\"FieldsDefaultsStep\",\"id\":\"12e01044-4a21-4a22-8732-81e255c198ac\",\"rows\":[{\"name\":\"EventSelector\",\"kind\":\"Event\",\"arguments\":[{\"kind\":\"EventReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"ca896381-ba99-486d-9f3c-344fbf6b7489\"}],\"name\":\"event\"}]}]},{\"name\":\"EventDetectStep\",\"id\":\"a88b6d77-9759-4781-99df-125f7b1fc14b\",\"rows\":[{\"name\":\"EventFieldSelector\",\"kind\":\"EventField\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"jobStatus\"}]},{\"name\":\"TextValueCondition\",\"kind\":\"TextValueCondition\",\"arguments\":[{\"name\":\"op\",\"type\":\"string\",\"value\":\"IsEqualTo\"},{\"kind\":\"EventFieldReference\",\"type\":\"complex\",\"arguments\":[{\"name\":\"fieldName\",\"type\":\"string\",\"value\":\"Microsoft.Fabric.JobEvents.ItemJobFailed\"}],\"name\":\"value\"}]}]},{\"name\":\"ActStep\",\"id\":\"862d9ace-67ec-444a-9db0-cd30d417019d\",\"rows\":[{\"arguments\":[{\"name\":\"messageLocale\",\"type\":\"string\",\"value\":\"en-us\"},{\"name\":\"sentTo\",\"type\":\"array\",\"values\":[{\"name\":\"string\",\"type\":\"string\",\"value\":\"dhaneshponraj@gmail.com\"}]},{\"name\":\"copyTo\",\"type\":\"array\",\"values\":[]},{\"name\":\"bCCTo\",\"type\":\"array\",\"values\":[]},{\"name\":\"subject\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"Activator alert pl_fail_demo\"}]},{\"name\":\"headline\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"The condition for 'pl_fail_demo' has been met\"}]},{\"name\":\"optionalMessage\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"\"}]},{\"name\":\"additionalInformation\",\"type\":\"array\",\"values\":[]}],\"kind\":\"EmailMessage\",\"name\":\"EmailBinding\"}]}]}",
+        "settings": {
+          "shouldRun": false,
+          "shouldApplyRuleOnUpdate": true
+        }
+      }
+    },
+    "type": "timeSeriesView-v1"
+  }
+]

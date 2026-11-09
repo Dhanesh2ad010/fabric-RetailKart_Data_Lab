@@ -1,0 +1,169 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "35b8fd73-6409-9201-4c0a-b2d35b176673",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "city": {
+              "value": "@item()",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Run notebook",
+        "dependsOn": []
+      },
+      {
+        "type": "SetVariable",
+        "typeProperties": {
+          "variableName": "rowcount",
+          "value": {
+            "value": "@activity('Run notebook').output.result.exitValue",
+            "type": "Expression"
+          }
+        },
+        "policy": {
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "rowcount",
+        "dependsOn": [
+          {
+            "activity": "Run notebook",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "IfCondition",
+        "typeProperties": {
+          "expression": {
+            "value": "@greater(int(variables('rowcount')), 300)",
+            "type": "Expression"
+          },
+          "ifTrueActivities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "pipelineReturnValue",
+                "value": [
+                  {
+                    "key": "status",
+                    "value": {
+                      "type": "String",
+                      "content": "OK"
+                    }
+                  }
+                ],
+                "setSystemVariable": true
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Set variable1",
+              "dependsOn": []
+            }
+          ],
+          "ifFalseActivities": [
+            {
+              "type": "SetVariable",
+              "typeProperties": {
+                "variableName": "pipelineReturnValue",
+                "value": [
+                  {
+                    "key": "status",
+                    "value": {
+                      "type": "String",
+                      "content": "LOW"
+                    }
+                  }
+                ],
+                "setSystemVariable": true
+              },
+              "policy": {
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Set variable2",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "If Condition1",
+        "dependsOn": [
+          {
+            "activity": "rowcount",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@createArray('Chennai','Bengaluru','Hyderabad')",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "TridentNotebook",
+              "typeProperties": {
+                "notebookId": "35b8fd73-6409-9201-4c0a-b2d35b176673",
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "parameters": {
+                  "city": {
+                    "value": {
+                      "value": "@item()",
+                      "type": "Expression"
+                    },
+                    "type": "string"
+                  }
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Notebook1",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "ForEach1",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "city": {
+        "type": "string",
+        "defaultValue": "Chennai"
+      }
+    },
+    "variables": {
+      "rowcount": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  }
+}

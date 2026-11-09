@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "05283e6a-20a5-b20c-4ce2-f7d5cfb1c5a1",
+          "workspaceId": "00000000-0000-0000-0000-000000000000"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Run fail",
+        "dependsOn": []
+      }
+    ],
+    "variables": {
+      "error_msg": {
+        "type": "String"
+      }
+    }
+  }
+}

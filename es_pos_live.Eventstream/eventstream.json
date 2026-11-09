@@ -1,0 +1,153 @@
+{
+  "sources": [
+    {
+      "id": "3c0c42f8-453a-4ce1-ba2a-5dd732931cad",
+      "name": "Bicycles",
+      "type": "SampleData",
+      "properties": {
+        "type": "Bicycles"
+      },
+      "inputSchemas": [
+        {
+          "name": "g2y5e",
+          "schema": {
+            "columns": [
+              {
+                "name": "BikepointID",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Street",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Neighbourhood",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Latitude",
+                "type": "Float",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Longitude",
+                "type": "Float",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "No_Bikes",
+                "type": "BigInt",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "No_Empty_Docks",
+                "type": "BigInt",
+                "fields": null,
+                "items": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "destinations": [
+    {
+      "id": "0b45ad60-13d8-4c81-b717-6bd39af9f504",
+      "name": "Lakehouse",
+      "type": "Lakehouse",
+      "properties": {
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemId": "b084f050-fa31-b231-4c53-64fb325f957c",
+        "schema": "dbo",
+        "deltaTable": "pos_events",
+        "inputSerialization": {
+          "type": "Json",
+          "properties": {
+            "encoding": "UTF8"
+          }
+        }
+      },
+      "inputNodes": [
+        {
+          "name": "es_pos_live-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "es_pos_live-stream",
+          "schema": {
+            "columns": [
+              {
+                "name": "BikepointID",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Street",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Neighbourhood",
+                "type": "Nvarchar(max)",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Latitude",
+                "type": "Float",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "Longitude",
+                "type": "Float",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "No_Bikes",
+                "type": "BigInt",
+                "fields": null,
+                "items": null
+              },
+              {
+                "name": "No_Empty_Docks",
+                "type": "BigInt",
+                "fields": null,
+                "items": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "e04ea867-0822-4d3f-9ecf-73a0e5ab32dc",
+      "name": "es_pos_live-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "Bicycles"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}

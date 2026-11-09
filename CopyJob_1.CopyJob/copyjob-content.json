@@ -1,0 +1,80 @@
+{
+  "properties": {
+    "jobMode": "CDC",
+    "fullLoadBehavior": "Truncate",
+    "source": {
+      "type": "DelimitedText",
+      "connectionSettings": {
+        "type": "Lakehouse",
+        "typeProperties": {
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "artifactId": "b084f050-fa31-b231-4c53-64fb325f957c",
+          "rootFolder": "Files"
+        }
+      }
+    },
+    "destination": {
+      "type": "LakehouseTable",
+      "connectionSettings": {
+        "type": "Lakehouse",
+        "typeProperties": {
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "artifactId": "b084f050-fa31-b231-4c53-64fb325f957c",
+          "rootFolder": "Tables"
+        }
+      }
+    },
+    "policy": {
+      "timeout": "0.12:00:00",
+      "retry": 0
+    }
+  },
+  "activities": [
+    {
+      "id": "ceb57c89-a05f-403e-aaf5-62485f2f8334",
+      "properties": {
+        "source": {
+          "datasetSettings": {
+            "location": {
+              "type": "LakehouseLocation",
+              "folderPath": "landing"
+            },
+            "columnDelimiter": ",",
+            "rowDelimiter": "\n",
+            "escapeChar": "\\",
+            "firstRowAsHeader": true,
+            "multiline": true,
+            "quoteChar": "\""
+          },
+          "changeDataSettings": {
+            "readMethod": "SnapshotPlusIncremental"
+          },
+          "storeSettings": {
+            "recursive": true,
+            "enablePartitionDiscovery": false
+          },
+          "formatSettings": {}
+        },
+        "destination": {
+          "writeBehavior": "Append",
+          "datasetSettings": {
+            "schema": "dbo",
+            "table": "raw_orders"
+          },
+          "applyVOrder": false,
+          "enableTimestampNtz": false
+        },
+        "enableStaging": false,
+        "translator": {
+          "type": "TabularTranslator"
+        },
+        "typeConversionSettings": {
+          "typeConversion": {
+            "allowDataTruncation": true,
+            "treatBooleanAsNumber": false
+          }
+        }
+      }
+    }
+  ]
+}
