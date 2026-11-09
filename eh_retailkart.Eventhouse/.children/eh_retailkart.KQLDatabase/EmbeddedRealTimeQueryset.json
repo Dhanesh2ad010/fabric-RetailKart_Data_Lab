@@ -12,7 +12,7 @@
     "tabs": [
       {
         "id": "fac07269-fb8f-489d-be67-24428cc7e18f",
-        "content": "bike_agg | take 10;\nbike_agg | summarize events = count() by Neighbourhood;\n\n.create table StocksDaily (Ticker:string, Date:datetime, Range:real);\n\n.create-or-alter function StocksDailyTransform() {\n    Stocks | project Ticker, Date, Range = High - Low\n}\n\n.alter table StocksDaily policy update\n@'[{\"IsEnabled\": true, \"Source\": \"Stocks\", \"Query\": \"StocksDailyTransform()\", \"IsTransactional\": false}]';\n\n.ingest inline into table Stocks <| 2026-11-09,41.0,42.0,40.5,41.5,35.0,1000,HAL\n\nStocksDaily | take 10\n\nbike_agg2 | take 10",
+        "content": "bike_agg | take 10;\nbike_agg | summarize events = count() by Neighbourhood;\n\n.create table StocksDaily (Ticker:string, Date:datetime, Range:real);\n\n.create-or-alter function StocksDailyTransform() {\n    Stocks | project Ticker, Date, Range = High - Low\n}\n\n.alter table StocksDaily policy update\n@'[{\"IsEnabled\": true, \"Source\": \"Stocks\", \"Query\": \"StocksDailyTransform()\", \"IsTransactional\": false}]';\n\n.ingest inline into table Stocks <| 2026-11-09,41.0,42.0,40.5,41.5,35.0,1000,HAL\n\nStocksDaily | take 10\n\nbike_agg2 | take 10\n\n.show table Stocks policy caching\n.alter table Stocks policy caching hot = 30d\n.show table Stocks policy retention\n\nStocks | where Ticker contains \"HA\" | count\nStocks | where Ticker has \"HAL\" | count\nStocks | where Ticker == \"HAL\" | count\n\n.create materialized-view StocksLatest on table Stocks\n{ Stocks | summarize arg_max(Date, *) by Ticker }\n\nStocksLatest | take 10",
         "title": "Tab",
         "dataSourceId": "42595a59-6a36-47eb-a32f-a94aad4bc269"
       }

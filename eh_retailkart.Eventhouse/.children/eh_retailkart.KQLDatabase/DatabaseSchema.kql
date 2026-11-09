@@ -8,4 +8,6 @@
 .create-or-alter function with (skipvalidation = "true") StocksDailyTransform() {
     Stocks | project Ticker, Date, Range = High - Low
 }
+.create-or-alter materialized-view  StocksLatest on table Stocks { Stocks | summarize arg_max(Date, *) by Ticker }
+.alter table Stocks policy caching hotdata = time(30.00:00:00) hotindex = time(30.00:00:00)
 .alter table StocksDaily policy update "[{\"IsEnabled\":true,\"Source\":\"Stocks\",\"Query\":\"StocksDailyTransform()\",\"IsTransactional\":false,\"PropagateIngestionProperties\":false,\"ManagedIdentity\":null,\"IsAsync\":false}]"
