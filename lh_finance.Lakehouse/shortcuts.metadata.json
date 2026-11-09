@@ -1,5 +1,18 @@
 [
   {
+    "name": "tmp_orders",
+    "path": "/Tables/dbo",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/dbo/tmp_orders",
+        "itemId": "b084f050-fa31-b231-4c53-64fb325f957c",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "artifactType": "Lakehouse"
+      }
+    }
+  },
+  {
     "name": "silver_orders",
     "path": "/Tables/dbo",
     "target": {

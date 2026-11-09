@@ -35,3 +35,89 @@ for c in ["Chennai", "Bengaluru", "Hyderabad"]:
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+spark.table("silver_orders").select("order_id", "amnt").show()
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+spark.table("silver_ordrs").count()
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+import faker
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+from delta.tables import DeltaTable
+from pyspark.sql import functions as F
+
+src = spark.table("raw_orders").select("order_id", "amount")   # 10 order_ids appear twice
+(DeltaTable.forName(spark, "silver_orders").alias("t")
+   .merge(src.alias("s"), "t.order_id = s.order_id")
+   .whenMatchedUpdate(set={"amount": "s.amount"}).execute())
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+src2 = src.dropDuplicates(["order_id"])
+(DeltaTable.forName(spark, "silver_orders").alias("t")
+   .merge(src2.alias("s"), "t.order_id = s.order_id")
+   .whenMatchedUpdate(set={"amount": "s.amount"}).execute())
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+spark.sql("CREATE TABLE tmp_orders AS SELECT * FROM silver_orders")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+spark.sql("DROP TABLE tmp_orders")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
