@@ -1,4 +1,4 @@
-# Fabric Learn
+# RetailKart Data Lab
 
 Microsoft Fabric item exports and learning exercises. The repository contains
 lakehouses, pipelines, notebooks, a Dataflow Gen2 definition, Eventstreams,
