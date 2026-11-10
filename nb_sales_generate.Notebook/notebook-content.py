@@ -61,7 +61,7 @@ display(spark.sql("SELECT city, COUNT(*) orders, ROUND(SUM(amount),2) revenue FR
 
 # CELL ********************
 
-path = "abfss://ebb37344-5499-4bce-91db-afa9ff20741e@onelake.dfs.fabric.microsoft.com/325f957c-64fb-4c53-b231-fa31b084f050/Tables/dbo/sales_orders"
+path = "<path>"
 df2 = spark.read.format("delta").load(path)
 print(df2.count())
 
