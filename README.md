@@ -1,65 +1,65 @@
-# RetailKart Fabric
+# Fabric Learn
 
-Microsoft Fabric workspace artifacts for a retail analytics solution. The project
-contains batch ingestion, data preparation, notebooks, lakehouses, warehouse
-objects, real-time event processing, and operational demos.
+Microsoft Fabric item exports and learning exercises. The repository contains
+lakehouses, pipelines, notebooks, a Dataflow Gen2 definition, Eventstreams,
+an Eventhouse database, a warehouse project, a Fabric environment, a Reflex
+definition, a Copy job, and an Apache Airflow job.
 
-## Architecture
+## Contents
 
-The solution is organized around these flows:
+### Retail order artifacts
 
-- **Batch orders**: `pl_ingest_orders` copies `landing/orders_raw.csv` into
-  the `raw_orders` table in `lh_retailkart`.
-- **Data preparation**: `df_clean_orders` and the notebooks transform raw data
-  into curated Delta tables such as `silver_orders`.
-- **Analytics**: `pl_sales_daily`, `nb_sales_generate`, `nb_city_sales`, and
-  `wh_retailkart` support daily sales and city-level reporting.
-- **Real time**: `es_pos_live` ingests POS events, `es_pos_agg` aggregates
-  events, and `eh_retailkart` provides Eventhouse/KQL exploration.
-- **Automation and reliability**: `My activator.Reflex`, `CopyJob_1`, and the
-  `pl_fail_demo` and `pl_rerun_demo` pipelines demonstrate event-driven
-  actions, copy jobs, failure handling, and reruns.
+- `lh_retailkart.Lakehouse` is the main lakehouse referenced by the order
+  pipelines and notebooks.
+- `lh_finance.Lakehouse` contains a second lakehouse definition and shortcut
+  metadata.
+- `pl_ingest_orders.DataPipeline` copies `landing/orders_raw.csv` from
+  `lh_retailkart` to the `raw_orders` table.
+- `df_clean_orders.Dataflow` reads `raw_orders`, replaces missing city values,
+  derives an `amount_band` column, and writes `df_orders_clean`.
+- `pl_sales_daily.DataPipeline` runs a notebook for Chennai, Bengaluru, and
+  Hyderabad, captures its row-count result, and sets a pipeline status based
+  on whether the count is greater than 300.
+- `wh_retailkart.Warehouse` contains SQL project metadata, tables, views, and
+  a city-filter function and security policy.
 
-## Repository layout
+### Streaming and analytics artifacts
 
-| Path | Fabric artifact |
-| --- | --- |
-| `lh_retailkart.Lakehouse` | Primary retail lakehouse |
-| `lh_finance.Lakehouse` | Finance lakehouse and shortcuts |
-| `wh_retailkart.Warehouse` | Retail warehouse schema and security objects |
-| `pl_*.DataPipeline` | Ingestion, sales, failure, and rerun pipelines |
-| `df_clean_orders.Dataflow` | Dataflow Gen2 transformation |
-| `nb_*.Notebook` | PySpark generation, transformation, testing, and performance notebooks |
-| `es_*.Eventstream` | POS streaming and aggregation eventstreams |
-| `eh_retailkart.Eventhouse` | Real-time analytics and KQL database |
-| `ApacheAirflowProject_1.ApacheAirflowJob` | Apache Airflow job definition |
-| `env_retailkart.Environment` | Fabric environment configuration |
-| `My activator.Reflex` | Reflex event automation definition |
+- `es_pos_live.Eventstream` sends the sample `Bicycles` source to the
+  `pos_events` table in `lh_retailkart`.
+- `es_pos_agg.Eventstream` calculates a 10-second average of `No_Bikes`
+  partitioned by `Neighbourhood` and sends the result to the `bike_agg2`
+  table in `eh_retailkart`.
+- `eh_retailkart.Eventhouse` contains KQL definitions for `Stocks`,
+  `StocksDaily`, and `bike_agg2`, along with a transformation function and a
+  materialized view.
 
-## Getting started
+### Exercises and supporting definitions
 
-1. Create or open a Microsoft Fabric workspace with Git integration enabled.
-2. Connect the workspace to this GitHub repository and select the `main` branch.
-3. Sync or update the workspace to import the Fabric artifacts.
-4. Review the lakehouse and warehouse connections before running pipelines.
-   Exported connection metadata may contain workspace-specific IDs that must
-   be mapped to the target workspace.
-5. Upload an `orders_raw.csv` file to the `landing` folder of `lh_retailkart`.
-6. Run `pl_ingest_orders`, then execute the transformation and reporting
-   notebooks or `pl_sales_daily`.
-7. Configure the eventstream and Eventhouse connections before running the
-   real-time workflows.
+- `nb_*.Notebook` contains PySpark notebook exports for batch work, city
+  sales, load patterns, streaming windows, performance, and failure
+  exercises.
+- `pl_fail_demo.DataPipeline` and `pl_rerun_demo.DataPipeline` are pipeline
+  exercises for failure and rerun behavior.
+- `nb_fail.Notebook` and `nb_perf_lab.Notebook` are corresponding notebook
+  exercises.
+- `ApacheAirflowProject_1.ApacheAirflowJob` contains a manual Airflow DAG
+  whose task prints `Hello, World!`.
+- `CopyJob_1.CopyJob`, `My activator.Reflex`, and
+  `env_retailkart.Environment` contain exported Fabric item definitions.
 
-The notebook sources are stored as Fabric notebook exports in
-`notebook-content.py`; they are intended to run in a Fabric Spark environment,
-not as ordinary local Python scripts.
+## Working with the exports
 
-## Development
+These files are source exports, not a standalone local application. Import or
+sync the item folders in a Microsoft Fabric workspace, then review the
+workspace and item references before running them. Several exported
+connections use placeholder workspace IDs, so they must be mapped to the
+target workspace.
 
-This repository stores Fabric metadata and source definitions. Changes should
-normally be made through Fabric Git integration or by editing the corresponding
-artifact export, then validating the artifact by syncing it to a development
-workspace.
+Notebook code is stored in each item's `notebook-content.py` file and is
+intended for a Fabric Spark notebook session. The SQL files under
+`wh_retailkart.Warehouse` can be built with the Microsoft Build SQL project
+tooling and the Fabric Data Warehouse DAC package.
 
 ## License
 
